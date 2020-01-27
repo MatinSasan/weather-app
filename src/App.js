@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { KEY } from './config';
 
 const api = {
   key: KEY,
-  base: 'https://api.openweathermap.org/data/2.5'
+  base: 'https://api.openweathermap.org/data/2.5/'
 };
 
 const dateBuilder = dateItem => {
@@ -41,11 +41,33 @@ const dateBuilder = dateItem => {
 };
 
 function App() {
+  const [query, setQuery] = useState('');
+  const [weather, setWeather] = useState({});
+
+  const search = async e => {
+    if (e.key === 'Enter') {
+      const res = await fetch(
+        `${api.base}weather?q=${query}&units=metric&APPID=${api.key}`
+      );
+      const result = await res.json();
+      setWeather(result);
+      setQuery('');
+      console.log(result);
+    }
+  };
+
   return (
     <div className='app'>
       <main>
         <div className='search-box'>
-          <input type='text' className='search-bar' placeholder='Search...' />
+          <input
+            type='text'
+            className='search-bar'
+            placeholder='Search...'
+            onChange={e => setQuery(e.target.value)}
+            value={query}
+            onKeyPress={search}
+          />
         </div>
         <div className='location-box'>
           <div className='location'>Tehran, Iran</div>
