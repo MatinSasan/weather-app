@@ -1,44 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import './App.css';
-import { KEY } from './config';
-
-const api = {
-  key: KEY,
-  base: 'https://api.openweathermap.org/data/2.5/'
-};
-
-const dateBuilder = dateItem => {
-  let months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
-  ];
-  let days = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday'
-  ];
-
-  let day = days[dateItem.getDay()];
-  let date = dateItem.getDate();
-  let month = months[dateItem.getMonth()];
-  let year = dateItem.getFullYear();
-
-  return `${day} ${date} ${month} ${year}`;
-};
+import { api } from './utils/api';
+import dateBuilder from './utils/databuilder';
 
 function App() {
   const [query, setQuery] = useState('');
@@ -56,7 +19,7 @@ function App() {
           setAlert(result.message);
           setTimeout(() => {
             setAlert(null);
-          }, 4000);
+          }, 3000);
         }
         setWeather(result);
         setQuery('');
